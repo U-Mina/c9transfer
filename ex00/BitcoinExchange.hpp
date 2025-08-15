@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:43:33 by ewu               #+#    #+#             */
-/*   Updated: 2025/04/01 16:18:18 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/15 13:21:51 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class BitcoinExchange
 {
 private:
 	std::map<std::string, float> _DB; 
-	//map stores date and exchange_rate; map<keyType, valueType> mapName
+	//map stores date | exchange_rate; map<keyType, valueType> mapName
 	bool validDate(const std::string& _date) const;
 	bool validValue(const std::string& _val) const;
 	void readDB();

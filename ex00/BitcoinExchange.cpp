@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:50:31 by ewu               #+#    #+#             */
-/*   Updated: 2025/04/02 15:18:05 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/15 13:32:11 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream> //convert str to str-stream
+
+/*------------constructor---------*/
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -35,6 +37,8 @@ BitcoinExchange::~BitcoinExchange()
 	//std::cout << "default des called!\n";
 }
 
+/*------------methods------------------*/
+
 static bool _checkdigit(std::string& s)
 {
 	for (int i = 0; s[i]; ++i)
@@ -45,45 +49,44 @@ static bool _checkdigit(std::string& s)
 	return true;
 }
 
-static bool _checkFeb(int yy, int dd)
-{
-	if ((yy % 4 == 0 && yy % 100 != 0) || yy % 400 == 0)
-	{
-		if (dd > 29)
-		{
+static bool _checkFeb(int yy, int dd) {
+	if ((yy % 4 == 0 && yy % 100 != 0) || yy % 400 == 0) {
+		if (dd > 29) {
 			std::cerr << "Error: over 29th on Feb\n";
 			return false;
 		}
 	}
-	if (dd > 28)
-	{
+	if (dd > 28) {
 		std::cerr << "Error: no 29th Feb this year => " << yy << '\n';
 		return false;
 	}
 	return true;
 }
 
-static bool _range(std::string& yy, std::string& mm, std::string& dd)
-{
+static bool _range(std::string& yy, std::string& mm, std::string& dd) {
 	int year = std::stoi(yy);
-	if (year < 2009)
-		return false;
+	
+	if (year < 2009) {
+		return false;	
+	}
+	
 	int month = std::stoi(mm);
-	if (month < 1 || month > 12)
-	{
+	if (month < 1 || month > 12) {
 		std::cerr << "Error: invalid month => " << month << '\n';
 		return false;
 	}
+	
 	int day = std::stoi(dd);
-	if (day > 31)
-	{
+	if (day > 31) {
 		std::cerr << "Error: over 31 days => " << day << '\n';	
 		return false;
 	}
-	if (!_checkFeb(year, day))
+	
+	if (!_checkFeb(year, day)) {
 		return (false);
-	if (month == 4 || month == 6 || month == 9 || month == 11) //30 days month
-	{
+	}
+	//30 days month
+	if (month == 4 || month == 6 || month == 9 || month == 11) {
 		if (day > 30)
 		{
 			std::cerr << "Error: no 31st days in month => " << month << '\n';
@@ -212,8 +215,8 @@ void BitcoinExchange::readInput(const std::string& inFile) const
 		std::stringstream tmpIn(line);
 		std::string inDate;
 		std::string inVal;
-		if (std::getline(tmpIn, inDate, '|') && std::getline(tmpIn, inVal))
-		{// date | rate
+		if (std::getline(tmpIn, inDate, '|') && std::getline(tmpIn, inVal)) {
+			// date | rate
 			_trimSpace(inDate);
 			_trimSpace(inVal);
 			// inDate.erase(std::remove_if(inDate.begin(), inDate.end(), ::isspace), inDate.end());
