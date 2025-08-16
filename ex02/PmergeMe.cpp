@@ -32,9 +32,41 @@ std::vector<int> PmergeMe::calcuJacob(size_t size)
 	return jk;
 }
 
-void PmergeMe::makePair(std::vector<std::pair<int, int> > &_pair)
+template <typename T>
+std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> PmergeMe::makePair(const T& container)
 {
+	int oddEle;
+	std::vector<std::pair<int, int>> pairs;
+	size_t limits = container.size();
 	
+	bool hasOddEle = container.size() % 2; // 1 => has, 0 => even
+	if (hasOddEle == true) {
+		oddEle = container.back();
+		limits -= 1;
+	} else {
+		oddEle = 0;
+	}
+	for (size_t i = 0; i < limits; i += 2)
+	{
+		int a = container[i];
+		int b = container[i + 1];
+		if (a > b) {
+			std::swap(a, b);
+		}
+		pairs.push_back({a, b}); // {small, big}
+	}
+	return ({pairs, {oddEle, hasOddEle}});
+}
+
+bool PmergeMe::compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b)
+{
+	return a.second < b.second;
+}
+
+void PmergeMe::sortPair(std::vector<std::pair<int, int>>& pairs)
+{
+	// para is from the 'makePair()'
+	std::sort(pairs.begin(), pairs.end(), compareScnd);
 }
 
 void PmergeMe::printNum()

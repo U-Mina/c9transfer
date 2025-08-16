@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/16 15:36:08 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/16 16:53:04 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,15 @@ private:
 	
 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
 	std::vector<int> calcuJacob(size_t size); //for nbr > 1
+	
+	// the general pairing
 	template <typename T>
 	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
-	// struct pairInfo
-	// {
-	// 	std::vector<std::pair<int, int> > pairs;
-	// 	bool isOdd = false;
-	// 	int oddNbr = 0;
-	// 	pairInfo(std::vector<std::pair<int, int> > p, bool odds, int oddsize) : pairs(p), isOdd(odds), oddNbr(oddsize) {}
-	// };
-	
-	// template <typename T>
-	// pairInfo makePair(const T& container);
-	// void sortPair(std::vector<std::pair<int, int> >& pair);
+	void sortPair(std::vector<std::pair<int, int>>& pairs);
+	bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
 		
 	// vector sorting
-	
+	void 
 	
 	
 	// deque sorting
@@ -86,3 +79,13 @@ public:
 
 
 #endif
+// struct pairInfo
+	// {
+	// 	std::vector<std::pair<int, int> > pairs;
+	// 	bool isOdd = false;
+	// 	int oddNbr = 0;
+	// 	pairInfo(std::vector<std::pair<int, int> > p, bool odds, int oddsize) : pairs(p), isOdd(odds), oddNbr(oddsize) {}
+	// };
+	
+	// template <typename T>
+	// pairInfo makePair(const T& container);
