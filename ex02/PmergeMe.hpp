@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/16 13:28:41 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/16 14:04:55 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,17 @@ private:
 public:
 	PmergeMe();
 	~PmergeMe();
-	PmergeMe(const PmergeMe& copy);
+	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
 
 	// methods
-	int calcuJacob(int nbr); //for nbr > 1, create jk order
+
+	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
+	std::vector<int> calcuJacob(size_t size); //for nbr > 1
 	
-	
+	// print the msg
+	void printNum();
+	void printTime();
 
 };
 
