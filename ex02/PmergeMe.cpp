@@ -28,7 +28,27 @@ std::vector<int> PmergeMe::calcuJacob(size_t size)
 			jk.push_back(nextJk);
 			i++;
 		}
-		return jk;
 	}
-
+	return jk;
 }
+
+void PmergeMe::makePair(std::vector<std::pair<int, int> > &_pair)
+{
+	
+}
+
+void PmergeMe::printNum()
+{
+	//
+}
+
+void PmergeMe::printTime()
+{
+	//
+}
+
+/*-------------vector------------*/
+
+
+
+/*--------------deque------------*/
