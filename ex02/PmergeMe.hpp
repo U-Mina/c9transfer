@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/16 16:53:04 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/16 16:56:19 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ private:
 	bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
 		
 	// vector sorting
-	void 
+	void vectorSort(std::vector<int>& container);
 	
 	
 	// deque sorting
@@ -64,7 +64,7 @@ private:
 	
 public:
 
-	PmergeMe();
+	// PmergeMe();
 	~PmergeMe();
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);

@@ -1,7 +1,8 @@
 #include "PmergeMe.hpp"
 
 /*----------constructor--------------*/
-PmergeMe::PmergeMe() {}
+
+// PmergeMe::PmergeMe() {}
 PmergeMe::~PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe& other) {}
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {}
@@ -81,6 +82,19 @@ void PmergeMe::printTime()
 
 /*-------------vector------------*/
 
+void PmergeMe::vectorSort(std::vector<int>& container)
+{
+	if (container.size() <= 1) {
+		return ;
+	}
+	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> result = makePair(container);
+	// auto [pairs, oddInfo] = makePair(container);
+	std::vector<std::pair<int, int>> pairs = result.first;
+	std::pair<int, bool> oddInfo = result.second;
+	bool hadOdd = oddInfo.second;
+	int oddEle = oddInfo.first;
 
+	sortPair(pairs);
+}
 
 /*--------------deque------------*/
