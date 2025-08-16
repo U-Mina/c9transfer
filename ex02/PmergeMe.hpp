@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/16 14:44:13 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/16 15:13:57 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,38 @@
 class PmergeMe
 {
 private:
+	struct pairInfo
+	{
+		std::vector<std::pair<int, int> > pairs;
+		bool isOdd = false;
+		int oddNbr = 0;
+		pairInfo(std::vector<std::pair<int, int> > p, bool odds, int oddsize) : pairs(p), isOdd(odds), oddNbr(oddsize) {}
+	};
+	
 	std::vector<int> vector;
 	std::deque<int> deque;
+	
+	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
+	std::vector<int> calcuJacob(size_t size); //for nbr > 1
+	
+	// vector sorting
+		
+
+	
+	// deque sorting
+
+
+	
 public:
 	PmergeMe();
 	~PmergeMe();
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
 
-	// common methods
-	void makePair(std::vector<std::pair<int, int> >& _pair);
-	void sortPair();
-	
-
-	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
-	std::vector<int> calcuJacob(size_t size); //for nbr > 1
 	
 	// print the msg
 	void printNum();
 	void printTime();
-
-	// vector sorting
-	
-	// deque sorting
 
 };
 
