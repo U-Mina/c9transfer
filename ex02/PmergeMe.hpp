@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/16 11:20:52 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/16 13:28:41 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <vector>
 #include <list>
 #include <iostream>
-#include <ctime>
+#include <sstream>
+#include <chrono>
 #include <climits>
 #include <deque>
 #include <algorithm>
@@ -25,21 +26,33 @@
 
 
 /**
+ * CONTAINER:
+ * vector, deque
  * FUNCTION:
  * createPair(); sortPaor();
  * bigChain();
- * smallCh(); => insert to bigChain() using Jacobthals number, binary search
+ * smallCh();
+ * 	insert samllch() to bigChain() using Jacobthals number, binary search
  * QUESTION: why jacob number??
+ * binary插入时，对于长度k的array，最多需要lgk次比较（k=8，lg8=3；k=32，lgk=5）
+ * j(0) = 0; j(1) = 1; j(n) = j(n-1) + 2j(n-2) for n>1
+ *
  * 
  */
 class PmergeMe
 {
-	
+private:
+	std::vector<int> vector;
+	std::deque<int> deque;
 public:
 	PmergeMe();
 	~PmergeMe();
 	PmergeMe(const PmergeMe& copy);
 	PmergeMe& operator=(const PmergeMe& other);
+
+	// methods
+	int calcuJacob(int nbr); //for nbr > 1, create jk order
+	
 	
 
 };
