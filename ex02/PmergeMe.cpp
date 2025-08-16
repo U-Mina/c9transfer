@@ -64,9 +64,13 @@ bool PmergeMe::compareScnd(const std::pair<int, int>& a, const std::pair<int, in
 	return a.second < b.second;
 }
 
+/** NOTE:
+ * std::sort() with 3 para, 3rd is optional, if omitted, go '<' sorting
+ * here mean: pair with samller .second go front
+ */
 void PmergeMe::sortPair(std::vector<std::pair<int, int>>& pairs)
 {
-	// para is from the 'makePair()'
+	// para ' pairs' is from the 'makePair()'
 	std::sort(pairs.begin(), pairs.end(), compareScnd);
 }
 
@@ -95,6 +99,15 @@ void PmergeMe::vectorSort(std::vector<int>& container)
 	int oddEle = oddInfo.first;
 
 	sortPair(pairs);
+
+	std::vector<int> bigChain;
+	std::vector<int> smallChain;
+	for (size_t i = 0; i < pairs.size(); ++i) {
+		const std::pair<int, int>& pair = pairs[i];
+		bigChain.push_back(pair.second);
+		smallChain.push_back(pair.first);
+		//
+	}
 }
 
 /*--------------deque------------*/
