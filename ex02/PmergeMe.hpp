@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 19:29:00 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/17 19:48:42 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ private:
 	
 public:
 
-	// PmergeMe();
+	PmergeMe();
 	~PmergeMe();
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
 
 	
 	// print the msg
-	void printRes(int ac, char** av);
+	// void printRes(int ac, char** av);
+	void printRes();
 	// void printTime();
 	void takeInput(int ac, char** av);
 	

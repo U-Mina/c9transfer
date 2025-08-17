@@ -2,9 +2,12 @@
 
 /*----------constructor--------------*/
 
-// PmergeMe::PmergeMe() {}
+PmergeMe::PmergeMe() {}
 PmergeMe::~PmergeMe() {}
-PmergeMe::PmergeMe(const PmergeMe& other) {}
+PmergeMe::PmergeMe(const PmergeMe& other) {
+	this->vector = other.vector;
+	this->deque = other.deque;
+}
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {}
 
 /*-------------methods---------------*/
@@ -96,14 +99,29 @@ void PmergeMe::sortPair(std::vector<std::pair<int, int>>& pairs)
 void PmergeMe::printRes()
 {
 	std::cout << "Before: ";
-	for (int i = 0; i < ac.size(); i++) {
+	for (int i = 0; i < this->vector.size(); i++) {
 		std::cout << vector[i] << " ";
 	}
 	std::cout << std::endl;
+	std::chrono::high_resolution_clock::time_point sttime;
+	std::chrono::high_resolution_clock::time_point edtime;
+	sttime = std::chrono::high_resolution_clock::now();
+	vectorSort(vector);
+	edtime = std::chrono::high_resolution_clock::now();
+	std::chrono::microseconds vecTm = std::chrono::duration_cast<std::chrono::microseconds>(edtime - sttime);
+
+	sttime = std::chrono::high_resolution_clock::now();
+	dequeSort(deque);
+	edtime = std::chrono::high_resolution_clock::now();
+	std::chrono::microseconds deqTm = std::chrono::duration_cast<std::chrono::microseconds>(edtime - sttime);
+
 	std::cout << "After: ";
 	for (int i = 0; i < this->vector.size(); i++) {
 		std::cout << vector[i] << " ";
 	}
+	std::cout << std::endl;
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vecTm.count() << " us\n";
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::deque : " << deqTm.count() << " us\n";
 }
 
 // void PmergeMe::printTime()
