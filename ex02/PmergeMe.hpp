@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 18:27:17 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/17 19:29:00 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ private:
 	// vector sorting
 	void vectorSort(std::vector<int>& container);
 	
-	
 	// deque sorting
-	
+	void dequeSort(std::deque<int>& container);
 	
 	
 public:
@@ -74,8 +73,10 @@ public:
 
 	
 	// print the msg
-	void printNum();
-	void printTime();
+	void printRes(int ac, char** av);
+	// void printTime();
+	void takeInput(int ac, char** av);
+	
 
 };
 
