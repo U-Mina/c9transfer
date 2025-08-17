@@ -86,6 +86,25 @@ void PmergeMe::printTime()
 
 /*-------------vector------------*/
 
+void PmergeMe::binaryInsert(std::vector<int>& container, int val, size_t size)
+{
+	//binary insert
+	if (size == 0) {
+		container.insert(container.begin(), val);
+	}
+	size_t left_pos = 0;
+	size_t end = size;
+	while (left_pos < end) {
+		size_t pos = left_pos + ((end - left_pos) / 2);
+		if (container[pos] < val) {
+			left_pos = pos + 1; // compare with next right (bigger) one
+		} else {
+			end = pos; // limit searching scope at middle pos and left
+		}
+	}
+	container.insert(container.begin() + left_pos, val);
+}
+
 void PmergeMe::vectorSort(std::vector<int>& container)
 {
 	if (container.size() <= 1) {
@@ -107,6 +126,24 @@ void PmergeMe::vectorSort(std::vector<int>& container)
 		bigChain.push_back(pair.second);
 		smallChain.push_back(pair.first);
 		//
+
+		if (smallChain.empty() == false) {
+			bigChain.insert(bigChain.begin(), smallChain[0]);
+			smallChain.erase(smallChain.begin());
+			// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
+			std::vector<int> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
+			std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
+			// create a vec(bool) => [ f, f ... size...f]
+			for (size_t jkOrder : jks) {
+				size_t start;
+				if (jkOrder <= smallChain.size()) {
+					start = jkOrder - 1;
+				} else {
+					start = smallChain.size() - 1;
+				}
+			}
+ 
+		}
 	}
 }
 
