@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 18:23:45 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/17 18:27:17 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ private:
 	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
 	void sortPair(std::vector<std::pair<int, int>>& pairs);
 	bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
-	void binaryInsert(std::vector<int>& container, int val, size_t size);
+	
+	template <typename T>
+	void binaryInsert(T& container, int val, size_t size);
 		
 	// vector sorting
 	void vectorSort(std::vector<int>& container);

@@ -84,9 +84,8 @@ void PmergeMe::printTime()
 	//
 }
 
-/*-------------vector------------*/
-
-void PmergeMe::binaryInsert(std::vector<int>& container, int val, size_t size)
+template <typename T>
+void PmergeMe::binaryInsert(T& container, int val, size_t size)
 {
 	//binary insert
 	if (size == 0) {
@@ -105,11 +104,14 @@ void PmergeMe::binaryInsert(std::vector<int>& container, int val, size_t size)
 	container.insert(container.begin() + left_pos, val);
 }
 
+/*-------------vector------------*/
+
 void PmergeMe::vectorSort(std::vector<int>& container)
 {
 	if (container.size() <= 1) {
 		return ;
 	}
+
 	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> result = makePair(container);
 	// auto [pairs, oddInfo] = makePair(container);
 	std::vector<std::pair<int, int>> pairs = result.first;
@@ -125,26 +127,42 @@ void PmergeMe::vectorSort(std::vector<int>& container)
 		const std::pair<int, int>& pair = pairs[i];
 		bigChain.push_back(pair.second);
 		smallChain.push_back(pair.first);
-		//
-
-		if (smallChain.empty() == false) {
-			bigChain.insert(bigChain.begin(), smallChain[0]);
-			smallChain.erase(smallChain.begin());
-			// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
-			std::vector<int> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
-			std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
-			// create a vec(bool) => [ f, f ... size...f]
-			for (size_t jkOrder : jks) {
-				size_t start;
-				if (jkOrder <= smallChain.size()) {
-					start = jkOrder - 1;
-				} else {
-					start = smallChain.size() - 1;
-				}
+	}
+	if (smallChain.empty() == false) {
+		bigChain.insert(bigChain.begin(), smallChain[0]);
+		smallChain.erase(smallChain.begin());
+	}
+	// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
+	std::vector<int> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
+	std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
+	// create a vec(bool) => [ f, f ... size...f]
+	for (size_t jkOrder : jks) {
+		size_t start;
+		if (jkOrder <= smallChain.size()) {
+			start = jkOrder - 1;
+		} else {
+			start = smallChain.size() - 1;
+		}
+		while (start < smallChain.size() && !inserted[start]) {
+			size_t instPos = start + 1; // up boundary for inserting
+			size_t lenthOfSearch = instPos + bigChain.size() - smallChain.size();
+			binaryInsert(bigChain, smallChain[start], lenthOfSearch);
+			inserted[start] = true; // insetred in prev step
+			if (start == 0) {
+				break ;
 			}
- 
+			start--;
 		}
 	}
+	for (size_t i = 0; i < smallChain.size(); i++) {
+		if (inserted[i] == false) {
+			binaryInsert(bigChain, smallChain[i], bigChain.size());
+		}
+	}
+	if (hadOdd == true) {
+		binaryInsert(bigChain, oddEle, bigChain.size());
+	}
+	container = bigChain;
 }
 
 /*--------------deque------------*/
