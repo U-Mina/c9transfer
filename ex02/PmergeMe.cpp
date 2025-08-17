@@ -8,12 +8,12 @@ PmergeMe::PmergeMe(const PmergeMe& other) {
 	this->vector = other.vector;
 	this->deque = other.deque;
 }
-PmergeMe& PmergeMe::operator=(const PmergeMe& other) {}
+// PmergeMe& PmergeMe::operator=(const PmergeMe& other) {}
 
 /*-------------methods---------------*/
 
 void PmergeMe::takeInput(int ac, char** av) {
-	for (int i = 1; i < ac; i++) {
+	for (int i = 1; i < ac - 1; i++) {
 		std::string input = av[i];
 		if (input.empty() == true || !std::all_of(input.begin(), input.end(), ::isdigit)) {
 			throw std::invalid_argument("invalid input, must be all digits and non-negative\n");
@@ -24,7 +24,7 @@ void PmergeMe::takeInput(int ac, char** av) {
 	// no dup check
 	std::vector<int> tmp = this->vector;
 	std::sort(tmp.begin(), tmp.end());
-	for (int i = 0; i < tmp.size(); i++) {
+	for (size_t i = 0; i < tmp.size(); i++) {
 		if (tmp[i] == tmp[i + 1]) {
 			throw std::invalid_argument("duplication of number!");
 		}
@@ -33,9 +33,9 @@ void PmergeMe::takeInput(int ac, char** av) {
 
 // 0, 1, 1, 3, 5, 11, 21
 // j(0) = 0; j(1) = 1; j(n) = j(n-1) + 2j(n-2) for n>=2
-std::vector<int> PmergeMe::calcuJacob(size_t size)
+std::vector<size_t> PmergeMe::calcuJacob(size_t size)
 {
-	std::vector<int> jk;
+	std::vector<size_t> jk;
 
 	// edge case handle
 	if (size == 0) {
@@ -78,10 +78,10 @@ std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> PmergeMe::make
 		}
 		pairs.push_back({a, b}); // {small, big}
 	}
-	return ({pairs, {oddEle, hasOddEle}});
+	return {pairs, {oddEle, hasOddEle}};
 }
 
-bool PmergeMe::compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b)
+static bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b)
 {
 	return a.second < b.second;
 }
@@ -99,7 +99,7 @@ void PmergeMe::sortPair(std::vector<std::pair<int, int>>& pairs)
 void PmergeMe::printRes()
 {
 	std::cout << "Before: ";
-	for (int i = 0; i < this->vector.size(); i++) {
+	for (size_t i = 0; i < this->vector.size(); i++) {
 		std::cout << vector[i] << " ";
 	}
 	std::cout << std::endl;
@@ -116,7 +116,7 @@ void PmergeMe::printRes()
 	std::chrono::microseconds deqTm = std::chrono::duration_cast<std::chrono::microseconds>(edtime - sttime);
 
 	std::cout << "After: ";
-	for (int i = 0; i < this->vector.size(); i++) {
+	for (size_t i = 0; i < this->vector.size(); i++) {
 		std::cout << vector[i] << " ";
 	}
 	std::cout << std::endl;
@@ -178,7 +178,7 @@ void PmergeMe::vectorSort(std::vector<int>& container)
 		smallChain.erase(smallChain.begin());
 	}
 	// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
-	std::vector<int> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
+	std::vector<size_t> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
 	std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
 	// create a vec(bool) => [ f, f ... size...f]
 	for (size_t jkOrder : jks) {
@@ -239,7 +239,7 @@ void PmergeMe::dequeSort(std::deque<int>& container)
 		smallChain.erase(smallChain.begin());
 	}
 	// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
-	std::vector<int> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
+	std::vector<size_t> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
 	std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
 	// create a vec(bool) => [ f, f ... size...f]
 	for (size_t jkOrder : jks) {

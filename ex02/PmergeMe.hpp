@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 19:48:42 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/17 20:10:42 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ private:
 	std::deque<int> deque;
 	
 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
-	std::vector<int> calcuJacob(size_t size); //for nbr > 1
+	std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 	
 	// the general pairing
 	template <typename T>
 	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
 	void sortPair(std::vector<std::pair<int, int>>& pairs);
-	bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
+	//bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
 	
 	template <typename T>
 	void binaryInsert(T& container, int val, size_t size);
