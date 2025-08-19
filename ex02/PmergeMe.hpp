@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 13:38:07 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 17:03:24 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,76 +39,89 @@
  *
  * 
  */
+class PmergeMe
+{
+	
+public:	
+	PmergeMe();
+	PmergeMe(const PmergeMe& other);
+	PmergeMe& operator=(const PmergeMe& other);
+	~PmergeMe();
+	
+	// print the msg
+	void takeInput();
+	void printVec(std::vector<int>& vec);
+	void printDeq(std::deque<int>& deq);
+	void printBef();
+	// void noDup(); in printbef() now, may remove
+	void printRes();
+	
+private:
 
- /* template class:
+std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
+
+// vector sort
+	std::vector<int> vector;
+	std::vector<int> postion;
+	std::vector<std::pair<int, int>> vecPair;
+	std::vector<int> bigChain;
+	std::vector<int> smallChain;
+	std::vector<size_t> jkOrder;
+
+
+	
+	std::deque<int> deque;
+	char** input;
+	
+	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
+	
+	// the general pairing
+	template <typename T>
+	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
+	void sortPair(std::vector<std::pair<int, int>>& pairs);
+	//bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
+	
+	// template <typename T>
+	// void binaryInsert(T& container, int val, size_t size);
+		
+	// vector sorting
+	void vectorInsert(int st, int ed);
+	void vectorMerge(int st, int mid, int ed);
+	void vectorSort(std::vector<int>& container);
+	
+	// deque sorting
+	void deqInsert(int st, int ed);
+	void depMerge(int st, int mid, int ed);
+	void dequeSort(std::deque<int>& container);
+
+
+};
+
+
+
+
+/* template class:
  'typename T' as pare
  template<typename, typename> class container: is container template
  like: pmergeme<int, vector> sortVec;
- */
-template <typename T, template <typename, typename> class Container>
-class PmergeMe
-{
-	// containertype: type alias (= typedef)
-	using ContainerType = Container<T, std::allocator<T>>;
-	PmergeMe<T, Container>();
-	PmergeMe<T, Container>(const PmergeMe<T, Container>& other);
-	~PmergeMe<T, Container>();
-	PmergeMe<T, Container>& operator=(const PmergeMe<T, Container>& other);
+*/
 
-	ContainerType sort(const ContainerType& arr) const;
-};
-
- 
+// template <typename T, template <typename, typename> class Container>
 // class PmergeMe
 // {
-// private:
-// 	std::vector<int> vector;
-// 	std::deque<int> deque;
-// 	char** input;
+// 	PmergeMe<T, Container>();
+// 	PmergeMe<T, Container>(const PmergeMe<T, Container>& other);
+// 	~PmergeMe<T, Container>();
+// 	PmergeMe<T, Container>& operator=(const PmergeMe<T, Container>& other);
 	
-// 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
-// 	std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
-	
-// 	// the general pairing
-// 	template <typename T>
-// 	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
-// 	void sortPair(std::vector<std::pair<int, int>>& pairs);
-// 	//bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
-	
-// 	// template <typename T>
-// 	// void binaryInsert(T& container, int val, size_t size);
-		
-// 	// vector sorting
-// 	void vectorInsert(int st, int ed);
-// 	void vectorMerge(int st, int mid, int ed);
-// 	void vectorSort(std::vector<int>& container);
-	
-// 	// deque sorting
-// 	void deqInsert(int st, int ed);
-// 	void depMerge(int st, int mid, int ed);
-// 	void dequeSort(std::deque<int>& container);
-	
-	
-// public:
-
-// 	PmergeMe(char** input);
-// 	~PmergeMe();
-// 	PmergeMe(const PmergeMe& other);
-// 	PmergeMe& operator=(const PmergeMe& other);
-
-	
-// 	// print the msg
-// 	// void printRes(int ac, char** av);
-// 	// void takeInput(int ac, char** av);
-// 	void takeInput();
-	
-// 	void printVec(std::vector<int>& vec);
-// 	void printDeq(std::deque<int>& deq);
-// 	void printBef();
-// 	// void noDup(); in printbef() now, may remove
-// 	void printRes();
-
+// 	// containertype: type alias (using = typedef)
+// 	using ContainerType = Container<T, std::allocator<T>>;
+// 	ContainerType sorting(const ContainerType& arr) const;
+// 	ContainerType merging(ContainerType t1, ContainerType t2) const;
 // };
+
+ 
+	
 
 
 
