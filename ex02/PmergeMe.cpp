@@ -38,7 +38,7 @@ void PmergeMe::takeIputVec(char** av)
 	int i = 1;
 	int val;
 	while (av[i]) {
-		if (av[i] == '\0') {
+		if (av[i][0] == '\0') {
 			throw std::invalid_argument("empty integer input!\n");
 		}
 		int j = 0;
@@ -80,11 +80,11 @@ void PmergeMe::makeVecPair()
 
 void PmergeMe::sortVecPair()
 {
-	int i;
+	size_t i;
 	int tmp;
 
 	i = 0;
-	while (i < vecPair.size()) {
+	while (i < this->vecPair.size()) {
 		if (vecPair.at(i).first < vecPair.at(i).second) {
 			tmp = vecPair.at(i).first;
 			vecPair.at(i).first = vecPair.at(i).second;
@@ -108,9 +108,9 @@ void PmergeMe::splitVecSort(std::vector<std::pair<int, int>>& arr, int st, int e
 
 void PmergeMe::mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, int ed)
 {
-	int l_idx;
-	int r_idx;
-	int i;
+	size_t l_idx;
+	size_t r_idx;
+	size_t i;
 
 	// start ... mid
 	std::vector<std::pair<int, int>> l_Part(arr.begin() + st, arr.begin() + mid + 1);
@@ -256,9 +256,24 @@ void PmergeMe::insertion()
 	if (this->vector.size() % 2 != 0)
 	{
 		target = this->vector.at(this->vector.size() - 1);
-		curPos = this->binSrchVec(this->bigChain, target, this->bigChain.size() - 1);
+		curPos = this->binSrchVec(this->bigChain, target, 0, this->bigChain.size() - 1);
 		this->bigChain.insert(this->bigChain.begin() + curPos, target);
 	}
+}
+
+void PmergeMe::printVec_b()
+{
+	for (size_t i = 0; i < this->vector.size(); ++i) {
+		std::cout << vector.at(i) << " ";
+	}
+	std::cout << std::endl;
+}
+void PmergeMe::printVec_a()
+{
+	for (size_t i = 0; i < this->vector.size(); ++i) {
+		std::cout << vector.at(i) << " ";
+	}
+	std::cout << std::endl;
 }
 
 // std::vector<size_t> PmergeMe::calcuJacob(size_t size)

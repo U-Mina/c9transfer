@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 20:56:24 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 21:18:31 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ public:
 	void callVectSort(char** av);
 	
 	// print the msg
-	void printVec(std::vector<int>& vec);
-	void printDeq(std::deque<int>& deq);
+	void printVec_b();
+	void printVec_a();
+	void printDeq_b(std::deque<int>& deq);
 	void printBef();
 	// void noDup(); in printbef() now, may remove
 	void printRes();
@@ -80,9 +81,9 @@ private:
 	void createInsrtOrder();
 	void insertion();
 	
-	std::deque<int> deque;
-	char** input;
 	
+	std::deque<int> deque;
+
 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
 	
 	// the general pairing
@@ -96,9 +97,9 @@ private:
 		
 	
 	// deque sorting
-	void deqInsert(int st, int ed);
-	void depMerge(int st, int mid, int ed);
-	void dequeSort(std::deque<int>& container);
+	// void deqInsert(int st, int ed);
+	// void depMerge(int st, int mid, int ed);
+	// void dequeSort(std::deque<int>& container);
 
 
 };
