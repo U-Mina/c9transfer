@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 17:03:24 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 17:16:45 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ public:
 	~PmergeMe();
 	
 	// print the msg
-	void takeInput();
+	// void takeInput();
 	void printVec(std::vector<int>& vec);
 	void printDeq(std::deque<int>& deq);
 	void printBef();
@@ -68,7 +68,14 @@ std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 	std::vector<int> smallChain;
 	std::vector<size_t> jkOrder;
 
-
+	void takeIputVec(char** av);
+	void makeVecPair();
+	void sortVecPair();
+	void mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, int ed);
+	void sortVec(std::vector<std::pair<int, int>>& arr, int st, int ed);
+	void makeChain();
+	void binaryVec(std::vector<int> arr, int target, int st, int ed);
+	void insertion();
 	
 	std::deque<int> deque;
 	char** input;
@@ -76,18 +83,14 @@ std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
 	
 	// the general pairing
-	template <typename T>
-	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
-	void sortPair(std::vector<std::pair<int, int>>& pairs);
+	// template <typename T>
+	// std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> makePair(const T& container);
+	// void sortPair(std::vector<std::pair<int, int>>& pairs);
 	//bool compareScnd(const std::pair<int, int>& a, const std::pair<int, int>& b);
 	
 	// template <typename T>
 	// void binaryInsert(T& container, int val, size_t size);
 		
-	// vector sorting
-	void vectorInsert(int st, int ed);
-	void vectorMerge(int st, int mid, int ed);
-	void vectorSort(std::vector<int>& container);
 	
 	// deque sorting
 	void deqInsert(int st, int ed);
