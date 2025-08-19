@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 10:26:34 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 11:03:57 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <vector>
 #include <list>
 #include <ostream>
+#include <iostream>
 #include <sstream>
 #include <ctime>
 #include <deque>
@@ -74,12 +75,14 @@ public:
 	
 	// print the msg
 	// void printRes(int ac, char** av);
-	// void printRes();
-	void takeInput(int ac, char** av);
+	// void takeInput(int ac, char** av);
+	void takeInput();
 	
 	void printVec(std::vector<int>& vec);
 	void printDeq(std::deque<int>& deq);
-	void printBef():
+	void printBef();
+	// void noDup(); in printbef() now, may remove
+	void printRes();
 
 };
 

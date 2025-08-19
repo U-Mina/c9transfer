@@ -13,14 +13,18 @@ PmergeMe::PmergeMe(const PmergeMe& other) {
 
 /*-------------METHODS---------------------*/
 
-void PmergeMe::takeInput(int ac, char** av) {
-	for (int i = 1; i < ac - 1; i++) {
-		std::string input = av[i];
-		if (input.empty() == true || !std::all_of(input.begin(), input.end(), ::isdigit)) {
-			throw std::invalid_argument("invalid input, must be all digits and non-negative\n");
+void PmergeMe::takeInput()
+{
+	for (int i = 1; input[i]; i++) {
+		int j = 0;
+		while (input[i][j]) {
+			if (isdigit(input[i][j]) == false) {
+				throw std::invalid_argument("invalid input, must be all digits and non-negative\n");
+				j++;
+			}
 		}
-		this->vector.push_back(std::stoi(input));
-		this->deque.push_back(std::stoi(input));
+		this->vector.push_back(atoi(input[i]));
+		this->deque.push_back(atoi(input[i]));
 	}
 	// no dup check
 	std::vector<int> tmp = this->vector;
@@ -30,6 +34,7 @@ void PmergeMe::takeInput(int ac, char** av) {
 			throw std::invalid_argument("duplication of number!");
 		}
 	}
+	printBef();
 }
 
 void PmergeMe::printVec(std::vector<int>& vec)
@@ -53,19 +58,14 @@ void PmergeMe::printDeq(std::deque<int>& deq)
 void PmergeMe::printBef()
 {
 	std::cout << "Before: ";
-	for (size_t i = 0; i < input.size(); i++) {
-		std::cout << vector[i] << " ";
+	for (int i = 1; input[i]; i++) {
+		std::cout << input[i] << " ";
 	}
 	std::cout << std::endl;
 }
 
 void PmergeMe::printRes()
 {
-	// std::cout << "Before: ";
-	// for (size_t i = 0; i < input.size(); i++) {
-	// 	std::cout << vector[i] << " ";
-	// }
-	std::cout << std::endl;
 	std::chrono::high_resolution_clock::time_point sttime;
 	std::chrono::high_resolution_clock::time_point edtime;
 	sttime = std::chrono::high_resolution_clock::now();
