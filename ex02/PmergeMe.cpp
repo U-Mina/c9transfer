@@ -19,6 +19,20 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 
 /*--------------------METHODS-----------------------*/
 
+void PmergeMe::callVectSort(char** av)
+{
+	this->takeIputVec(av);
+	if (this->vector.size() == 1) {
+		bigChain.push_back(vector.at(0));
+	} else {
+		makeVecPair();
+		sortVecPair();
+		splitVecSort(vecPair, 0, vecPair.size() - 1);
+		makeChain();
+		insertion();
+	}
+}
+
 void PmergeMe::takeIputVec(char** av)
 {
 	int i = 1;
@@ -224,23 +238,46 @@ void PmergeMe::createInsrtOrder()
 	}
 }
 
-std::vector<size_t> PmergeMe::calcuJacob(size_t size)
+void PmergeMe::insertion()
 {
-	std::vector<size_t> jk;
-	// edge case handle
-	if (size == 0) {
-		return jk; // return empty std::vector, cuz no element to insert!
+	int target;
+	size_t curPos;
+	this->createInsrtOrder();
+	size_t added = 0;
+	std::vector<int>::iterator it;
+	for (it = this->insrtPos.begin(); it != this->insrtPos.end(); ++it)
+	{
+		size_t endPos = added + *it;
+		target = this->smallChain.at(*it - 1); //check
+		curPos = this->binSrchVec(this->bigChain, target, 0, endPos);
+		this->bigChain.insert(this->bigChain.begin() + curPos, target);
+		added++;
 	}
-	jk.push_back(1); // not empty, push 1st element 
-	if (size > 1) {
-		jk.push_back(3); // at this point, {1, 3} in jk
-		size_t i = 2; // the formula starts from n >= 2
-		while (jk.back() < size) {
-			// the insertion place is samller than the size of chain
-			int nextJk = jk[size - 1] + (2 * jk[size - 2]);
-			jk.push_back(nextJk);
-			i++;
-		}
+	if (this->vector.size() % 2 != 0)
+	{
+		target = this->vector.at(this->vector.size() - 1);
+		curPos = this->binSrchVec(this->bigChain, target, this->bigChain.size() - 1);
+		this->bigChain.insert(this->bigChain.begin() + curPos, target);
 	}
-	return jk;
 }
+
+// std::vector<size_t> PmergeMe::calcuJacob(size_t size)
+// {
+// 	std::vector<size_t> jk;
+// 	// edge case handle
+// 	if (size == 0) {
+// 		return jk; // return empty std::vector, cuz no element to insert!
+// 	}
+// 	jk.push_back(1); // not empty, push 1st element 
+// 	if (size > 1) {
+// 		jk.push_back(3); // at this point, {1, 3} in jk
+// 		size_t i = 2; // the formula starts from n >= 2
+// 		while (jk.back() < size) {
+// 			// the insertion place is samller than the size of chain
+// 			int nextJk = jk[size - 1] + (2 * jk[size - 2]);
+// 			jk.push_back(nextJk);
+// 			i++;
+// 		}
+// 	}
+// 	return jk;
+// }

@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 20:09:49 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 20:56:24 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ public:
 	PmergeMe& operator=(const PmergeMe& other);
 	~PmergeMe();
 	
+	// call vector sort process
+	void callVectSort(char** av);
+	
 	// print the msg
-	// void takeInput();
 	void printVec(std::vector<int>& vec);
 	void printDeq(std::deque<int>& deq);
 	void printBef();
@@ -58,8 +60,6 @@ public:
 	
 private:
 
-// std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
-
 // vector sort
 	std::vector<int> vector;
 	std::vector<int> insrtPos;
@@ -67,7 +67,7 @@ private:
 	std::vector<int> bigChain;
 	std::vector<int> smallChain;
 	std::vector<int> jkOrder;
-
+	
 	void takeIputVec(char** av);
 	void makeVecPair();
 	void sortVecPair();
