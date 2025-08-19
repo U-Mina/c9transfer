@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 18:30:54 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 20:09:49 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ public:
 	
 private:
 
-std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
+// std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 
 // vector sort
 	std::vector<int> vector;
-	std::vector<int> postion;
+	std::vector<int> insrtPos;
 	std::vector<std::pair<int, int>> vecPair;
 	std::vector<int> bigChain;
 	std::vector<int> smallChain;
-	std::vector<size_t> jkOrder;
+	std::vector<int> jkOrder;
 
 	void takeIputVec(char** av);
 	void makeVecPair();
@@ -74,7 +74,10 @@ std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 	void splitVecSort(std::vector<std::pair<int, int>>& arr, int st, int ed);
 	void mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, int ed);
 	void makeChain();
-	void binaryVec(std::vector<int> arr, int target, int st, int ed);
+	int binSrchVec(std::vector<int> arr, int target, int st, int ed);
+	int calcuJknbr(int size);
+	void createJkOrder();
+	void createInsrtOrder();
 	void insertion();
 	
 	std::deque<int> deque;
