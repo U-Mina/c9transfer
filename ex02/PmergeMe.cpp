@@ -11,10 +11,10 @@ PmergeMe::PmergeMe(const PmergeMe& other) {
 PmergeMe::~PmergeMe() {}
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
-	// if (this != &other) {
-	// 	*this = other;
-	// }
-	(void)other;
+	if (this != &other) {
+		*this = other;
+	}
+	// (void)other;
 	return *this;
 }
 
