@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 18:59:38 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 19:50:41 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 10:05:37 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int main(int ac, char** av)
 {
-	if (ac < 2)
+	if (ac < 3)
 	{
 		throw std::invalid_argument("Invalid argument number!");
+		return 1;
 	}
 	try
 	{
 		PmergeMe p;
-		p.takeInput(ac, av);
-		p.printRes();
+		// p.takeInput(ac, av);
+		// p.printRes();
 	}
 	catch(const std::exception& e)
 	{

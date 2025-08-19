@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/17 20:10:42 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 10:26:34 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 
 #include <vector>
 #include <list>
-#include <iostream>
+#include <ostream>
 #include <sstream>
-#include <chrono>
-#include <climits>
+#include <ctime>
 #include <deque>
 #include <algorithm>
 #include <stdexcept>
@@ -44,6 +43,7 @@ class PmergeMe
 private:
 	std::vector<int> vector;
 	std::deque<int> deque;
+	char** input;
 	
 	// int size: the size of 'pending-chain, according to the num of element in the chain to cal the kacob order
 	std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
@@ -66,7 +66,7 @@ private:
 	
 public:
 
-	PmergeMe();
+	PmergeMe(char** input);
 	~PmergeMe();
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
@@ -74,10 +74,12 @@ public:
 	
 	// print the msg
 	// void printRes(int ac, char** av);
-	void printRes();
-	// void printTime();
+	// void printRes();
 	void takeInput(int ac, char** av);
 	
+	void printVec(std::vector<int>& vec);
+	void printDeq(std::deque<int>& deq);
+	void printBef():
 
 };
 
