@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/19 17:16:45 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/19 18:30:54 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ std::vector<size_t> calcuJacob(size_t size); //for nbr > 1
 	void takeIputVec(char** av);
 	void makeVecPair();
 	void sortVecPair();
+	void splitVecSort(std::vector<std::pair<int, int>>& arr, int st, int ed);
 	void mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, int ed);
-	void sortVec(std::vector<std::pair<int, int>>& arr, int st, int ed);
 	void makeChain();
 	void binaryVec(std::vector<int> arr, int target, int st, int ed);
 	void insertion();
