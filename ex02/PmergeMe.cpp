@@ -11,9 +11,10 @@ PmergeMe::PmergeMe(const PmergeMe& other) {
 PmergeMe::~PmergeMe() {}
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
-	if (this != &other) {
-		*this = other;
-	}
+	// if (this != &other) {
+	// 	*this = other;
+	// }
+	(void)other;
 	return *this;
 }
 
@@ -23,32 +24,37 @@ void PmergeMe::callVectSort(char** av)
 {
 	this->takeIputVec(av);
 	if (this->vector.size() == 1) {
-		bigChain.push_back(vector.at(0));
-	} else {
-		makeVecPair();
-		sortVecPair();
-		splitVecSort(vecPair, 0, vecPair.size() - 1);
-		makeChain();
-		insertion();
+		bigChain.push_back(this->vector.at(0));
+	}
+	else {
+		this->makeVecPair();
+		this->sortVecPair();
+		this->splitVecSort(this->vecPair, 0, this->vecPair.size() - 1);
+		this->makeChain();
+		this->insertion();
 	}
 }
 
 void PmergeMe::takeIputVec(char** av)
 {
-	int i = 1;
+	int i;
+	// char *p; //check: what p is doing
 	int val;
+	i = 1;
 	while (av[i]) {
 		if (av[i][0] == '\0') {
 			throw std::invalid_argument("empty integer input!\n");
 		}
-		int j = 0;
-		while (av[i][j]) {
-			if (isdigit(av[i][j]) == false) {
-				throw std::invalid_argument("invalid input, must be all digits\n");
-				j++;
-			}
-		}
-		val = std::stoi(av[i]);
+		// int j = 0;
+		// while (av[i][j]) {
+		// 	if (isdigit(av[i][j]) == false) {
+		// 		throw std::invalid_argument("invalid input, must be all digits\n");
+		// 		j++;
+		// 	}
+		// }
+		// val = std::strtol(av[i], &p, 10);
+		val = std::atoi(av[i]);
+		// if (*p != '\0' || val < 0) {
 		if (val < 0) {
 			throw std::invalid_argument("input must be non-negative\n");
 		}
@@ -71,8 +77,9 @@ void PmergeMe::makeVecPair()
 
 	i = 0;
 	size = this->vector.size() / 2;
-	while (size != 0) {
-		this->vecPair.push_back(std::make_pair(vector.at(i), vector.at(i + 1)));
+	while (size != 0)
+	{
+		this->vecPair.push_back(std::make_pair(this->vector.at(i), this->vector.at(i + 1)));
 		i += 2;
 		size--;
 	}
@@ -85,10 +92,10 @@ void PmergeMe::sortVecPair()
 
 	i = 0;
 	while (i < this->vecPair.size()) {
-		if (vecPair.at(i).first < vecPair.at(i).second) {
-			tmp = vecPair.at(i).first;
-			vecPair.at(i).first = vecPair.at(i).second;
-			vecPair.at(i).second = tmp;
+		if (this->vecPair.at(i).first < this->vecPair.at(i).second) {
+			tmp = this->vecPair.at(i).first;
+			this->vecPair.at(i).first = this->vecPair.at(i).second;
+			this->vecPair.at(i).second = tmp;
 		}
 		i++;
 	}
@@ -133,16 +140,16 @@ void PmergeMe::mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, 
 			r_idx++;
 		}
 		i++;
-		while (l_idx < l_Part.size()) {
-			arr[i] = l_Part[l_idx];
-			l_idx++;
-			i++;
-		}
-		while (r_idx < r_Part.size()) {
-			arr[i] = r_Part[r_idx];
-			r_idx++;
-			i++;
-		}
+	}
+	while (l_idx < l_Part.size()) {
+		arr[i] = l_Part[l_idx];
+		l_idx++;
+		i++;
+	}
+	while (r_idx < r_Part.size()) {
+		arr[i] = r_Part[r_idx];
+		r_idx++;
+		i++;
 	}
 }
 
@@ -150,9 +157,9 @@ void PmergeMe::makeChain()
 {
 	// make a1, b1, a2, a3, ... aN chain
 	size_t i;
-	bigChain.push_back(vecPair.at(0).second);
+	bigChain.push_back(this->vecPair.at(0).second);
 	i = 0;
-	while (i < vecPair.size()) {
+	while (i < this->vecPair.size()) {
 		bigChain.push_back(this->vecPair.at(i).first);
 		smallChain.push_back(this->vecPair.at(i).second);
 		i++;
@@ -169,7 +176,8 @@ int PmergeMe::binSrchVec(std::vector<int> arr, int target, int st, int ed)
 		if (target == arr.at(mid)) {
 			return mid;
 		}
-		if (target > arr.at(mid)) {
+		if (target > arr.at(mid))
+		{
 			st = mid + 1;
 		} else {
 			ed = mid - 1;
@@ -177,7 +185,8 @@ int PmergeMe::binSrchVec(std::vector<int> arr, int target, int st, int ed)
 	}
 	if (target > arr.at(mid)) {
 		return mid + 1;
-	} else {
+	} else
+	{
 		return mid;
 	}
 }
@@ -212,13 +221,14 @@ void PmergeMe::createJkOrder()
 
 void PmergeMe::createInsrtOrder()
 {
-	if (smallChain.empty() == true) {
+	if (this->smallChain.empty() == true) {
 		return ;
 	}
 	this->createJkOrder(); // create jkOrder
 	size_t pre_jkIdx = 1; // prev jk-idx used
-	size_t cur_jkIdx = 0; // will be replace soon, just to init var
+	size_t cur_jkIdx = 1; // will be replace soon, just to init var
 	size_t jkOrderIdx = 0; // to get the 'jkorder;, 0->3, 1->5, 3->11
+	// size_t backtrackIdx;
 
 	while (jkOrderIdx < this->jkOrder.size())
 	{
@@ -233,7 +243,7 @@ void PmergeMe::createInsrtOrder()
 		pre_jkIdx = cur_jkIdx;
 		jkOrderIdx++;
 	}
-	while (++cur_jkIdx < this->smallChain.size()) {
+	while (cur_jkIdx++ < this->smallChain.size()) {
 		this->insrtPos.push_back(cur_jkIdx);
 	}
 }
@@ -263,15 +273,18 @@ void PmergeMe::insertion()
 
 void PmergeMe::printVec_b()
 {
+	std::cout << "Before is: ";
 	for (size_t i = 0; i < this->vector.size(); ++i) {
-		std::cout << vector.at(i) << " ";
+		std::cout << this->vector.at(i) << " ";
+		// std::cout << "print this";
 	}
 	std::cout << std::endl;
 }
 void PmergeMe::printVec_a()
 {
-	for (size_t i = 0; i < this->vector.size(); ++i) {
-		std::cout << vector.at(i) << " ";
+	std::cout << "After is: ";
+	for (size_t i = 0; i < this->bigChain.size(); ++i) {
+		std::cout << bigChain.at(i) << " ";
 	}
 	std::cout << std::endl;
 }
