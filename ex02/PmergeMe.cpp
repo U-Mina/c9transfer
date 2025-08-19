@@ -66,25 +66,25 @@ void PmergeMe::printBef()
 
 void PmergeMe::printRes()
 {
-	std::chrono::high_resolution_clock::time_point sttime;
-	std::chrono::high_resolution_clock::time_point edtime;
-	sttime = std::chrono::high_resolution_clock::now();
+	clock_t sttime;
+	clock_t edtime;
+	double vectm;
+	double deqtm;
+
+	sttime = clock();
 	vectorSort(vector);
-	edtime = std::chrono::high_resolution_clock::now();
-	std::chrono::microseconds vecTm = std::chrono::duration_cast<std::chrono::microseconds>(edtime - sttime);
+	edtime = clock();
+	vectm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+	printVec(vector);
 
-	sttime = std::chrono::high_resolution_clock::now();
+	sttime = clock();
 	dequeSort(deque);
-	edtime = std::chrono::high_resolution_clock::now();
-	std::chrono::microseconds deqTm = std::chrono::duration_cast<std::chrono::microseconds>(edtime - sttime);
-
-	std::cout << "After: ";
-	for (size_t i = 0; i < this->vector.size(); i++) {
-		std::cout << vector[i] << " ";
-	}
-	std::cout << std::endl;
-	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vecTm.count() << " us\n";
-	std::cout << "Time to process a range of " << vector.size() << " elements with std::deque : " << deqTm.count() << " us\n";
+	edtime = clock();
+	deqtm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+	printDeq(deque);
+	
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vectm << " us\n";
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::deque : " << deqtm << " us\n";
 }
 
 // 0, 1, 1, 3, 5, 11, 21
@@ -158,85 +158,128 @@ void PmergeMe::sortPair(std::vector<std::pair<int, int>>& pairs)
 // 	//
 // }
 
-template <typename T>
-void PmergeMe::binaryInsert(T& container, int val, size_t size)
-{
-	//binary insert
-	if (size == 0) {
-		container.insert(container.begin(), val);
-	}
-	size_t left_pos = 0;
-	size_t end = size;
-	while (left_pos < end) {
-		size_t pos = left_pos + ((end - left_pos) / 2);
-		if (container[pos] < val) {
-			left_pos = pos + 1; // compare with next right (bigger) one
-		} else {
-			end = pos; // limit searching scope at middle pos and left
-		}
-	}
-	container.insert(container.begin() + left_pos, val);
-}
+// template <typename T>
+// void PmergeMe::binaryInsert(T& container, int val, size_t size)
+// {
+// 	//binary insert
+// 	if (size == 0) {
+// 		container.insert(container.begin(), val);
+// 	}
+// 	size_t left_pos = 0;
+// 	size_t end = size;
+// 	while (left_pos < end) {
+// 		size_t pos = left_pos + ((end - left_pos) / 2);
+// 		if (container[pos] < val) {
+// 			left_pos = pos + 1; // compare with next right (bigger) one
+// 		} else {
+// 			end = pos; // limit searching scope at middle pos and left
+// 		}
+// 	}
+// 	container.insert(container.begin() + left_pos, val);
+// }
 
 /*-------------vector------------*/
 
+void PmergeMe::vectorInsert(int st, int ed)
+{
+	for (int sortedIdx = st; sortedIdx < ed; ++sortedIdx) {
+		int valToInsrt = vector[sortedIdx + 1];
+		int insrtPos = sortedIdx + 1;
+		while (insrtPos > st && vector[insrtPos - 1] > valToInsrt)
+		{
+			vector[insrtPos] = vector[insrtPos - 1];
+			insrtPos--;
+		}
+		vector[insrtPos] = valToInsrt;
+	}
+}
+
+void PmergeMe::vectorMerge(int st, int mid, int ed)
+{
+	int left = mid - st + 1;
+	int right = ed - mid;
+
+	int lIdx = 0;
+	int rIdx = 0;
+	std::vector<int> lPart(vector.begin() + st, vector.begin() + mid + 1);
+	std::vector<int> rPart(vector.begin() + mid + 1, vector.begin() + ed + 1);
+	for (int i = st; i <= ed; ++i) {
+		// right-half at end, go to left
+		if (rIdx == right) {
+			vector[i] = lPart[lIdx];
+			lIdx++;
+		}
+		if (lIdx == left) {
+			vector[i] = rPart[rIdx];
+			rIdx++;
+		}
+		else if (rPart[rIdx] > lPart[lIdx]) {
+			vector[i] = lPart[lIdx]; // find smallest one in range
+			lIdx++;
+		} else {
+			vector[i] = rPart[rIdx];
+			rIdx++;
+		}
+	}
+}
+
 void PmergeMe::vectorSort(std::vector<int>& container)
 {
-	if (container.size() <= 1) {
-		return ;
-	}
+	// if (container.size() <= 1) {
+	// 	return ;
+	// }
 
-	std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> result = makePair(container);
-	// auto [pairs, oddInfo] = makePair(container);
-	std::vector<std::pair<int, int>> pairs = result.first;
-	std::pair<int, bool> oddInfo = result.second;
-	bool hadOdd = oddInfo.second;
-	int oddEle = oddInfo.first;
+	// std::pair<std::vector<std::pair<int, int>>, std::pair<int, bool>> result = makePair(container);
+	// // auto [pairs, oddInfo] = makePair(container);
+	// std::vector<std::pair<int, int>> pairs = result.first;
+	// std::pair<int, bool> oddInfo = result.second;
+	// bool hadOdd = oddInfo.second;
+	// int oddEle = oddInfo.first;
 
-	sortPair(pairs);
+	// sortPair(pairs);
 
-	std::vector<int> bigChain;
-	std::vector<int> smallChain;
-	for (size_t i = 0; i < pairs.size(); ++i) {
-		const std::pair<int, int>& pair = pairs[i];
-		bigChain.push_back(pair.second);
-		smallChain.push_back(pair.first);
-	}
-	if (smallChain.empty() == false) {
-		bigChain.insert(bigChain.begin(), smallChain[0]);
-		smallChain.erase(smallChain.begin());
-	}
-	// form b1, a1, a2, ... an, this keep b1 and all a's in big chain
-	std::vector<size_t> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
-	std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
-	// create a vec(bool) => [ f, f ... size...f]
-	for (size_t jkOrder : jks) {
-		size_t start;
-		if (jkOrder <= smallChain.size()) {
-			start = jkOrder - 1;
-		} else {
-			start = smallChain.size() - 1;
-		}
-		while (start < smallChain.size() && !inserted[start]) {
-			size_t instPos = start + 1; // up boundary for inserting
-			size_t lenthOfSearch = instPos + bigChain.size() - smallChain.size();
-			binaryInsert(bigChain, smallChain[start], lenthOfSearch);
-			inserted[start] = true; // insetred in prev step
-			if (start == 0) {
-				break ;
-			}
-			start--;
-		}
-	}
-	for (size_t i = 0; i < smallChain.size(); i++) {
-		if (inserted[i] == false) {
-			binaryInsert(bigChain, smallChain[i], bigChain.size());
-		}
-	}
-	if (hadOdd == true) {
-		binaryInsert(bigChain, oddEle, bigChain.size());
-	}
-	container = bigChain;
+	// std::vector<int> bigChain;
+	// std::vector<int> smallChain;
+	// for (size_t i = 0; i < pairs.size(); ++i) {
+	// 	const std::pair<int, int>& pair = pairs[i];
+	// 	bigChain.push_back(pair.second);
+	// 	smallChain.push_back(pair.first);
+	// }
+	// if (smallChain.empty() == false) {
+	// 	bigChain.insert(bigChain.begin(), smallChain[0]);
+	// 	smallChain.erase(smallChain.begin());
+	// }
+	// // form b1, a1, a2, ... an, this keep b1 and all a's in big chain
+	// std::vector<size_t> jks = calcuJacob(smallChain.size()); // the size of b's decide how far we'll go in 1, 3, 5, 11...
+	// std::vector<bool> inserted = std::vector<bool>(smallChain.size(), false);
+	// // create a vec(bool) => [ f, f ... size...f]
+	// for (size_t jkOrder : jks) {
+	// 	size_t start;
+	// 	if (jkOrder <= smallChain.size()) {
+	// 		start = jkOrder - 1;
+	// 	} else {
+	// 		start = smallChain.size() - 1;
+	// 	}
+	// 	while (start < smallChain.size() && !inserted[start]) {
+	// 		size_t instPos = start + 1; // up boundary for inserting
+	// 		size_t lenthOfSearch = instPos + bigChain.size() - smallChain.size();
+	// 		binaryInsert(bigChain, smallChain[start], lenthOfSearch);
+	// 		inserted[start] = true; // insetred in prev step
+	// 		if (start == 0) {
+	// 			break ;
+	// 		}
+	// 		start--;
+	// 	}
+	// }
+	// for (size_t i = 0; i < smallChain.size(); i++) {
+	// 	if (inserted[i] == false) {
+	// 		binaryInsert(bigChain, smallChain[i], bigChain.size());
+	// 	}
+	// }
+	// if (hadOdd == true) {
+	// 	binaryInsert(bigChain, oddEle, bigChain.size());
+	// }
+	// container = bigChain;
 }
 
 /*--------------deque------------*/
