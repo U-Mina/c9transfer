@@ -317,5 +317,118 @@ void PmergeMe::callDeqSort(char** av)
 void PmergeMe::makeDeqPair()
 {
 	size_t size;
-	
+	int i;
+
+	i = 0;
+	size = this->deque.size() / 2;
+	while (size != 0)
+	{
+		this->deqPair.push_back(std::make_pair(this->deque.at(i), this->deque.at(i + 1)));
+		i += 2;
+		size--;
+	}
+}
+
+void PmergeMe::sortDeqPair()
+{
+	size_t i;
+	int tmp;
+
+	i = 0;
+	for (int i = 0; i < this->deqPair.size(); i++) {
+	// while (i < this->deqPair.size()) {
+		if (this->deqPair.at(i).first < this->deqPair.at(i).second) {
+			tmp = this->deqPair.at(i).first;
+			this->deqPair.at(i).first = this->deqPair.at(i).second;
+			this->deqPair.at(i).second = tmp;
+		}
+		// i++;
+	}
+}
+
+void PmergeMe::splitDeqSort(std::deque<std::pair<int, int>>& arr, int st, int ed)
+{
+	if (st >= ed) {
+		return ;
+	}
+	int mid = st + (ed - st) / 2;
+	this->splitDeqSort(arr, st, mid);
+	this->splitDeqSort(arr, mid + 1, ed);
+	this->mergeDeq(arr, st, mid, ed);
+}
+
+void PmergeMe::mergeDeq(std::deque<std::pair<int, int>>& arr, int st, int mid, int ed)
+{
+	size_t l_idx;
+	size_t r_idx;
+	size_t i;
+
+	std::deque<std::pair<int, int>> l_Part(arr.begin() + st, arr.begin() + mid + 1);
+	std::deque<std::pair<int ,int>> r_Part(arr.begin() + mid + 1, arr.begin() + ed + 1);
+
+	l_idx = 0;
+	r_idx = 0;
+	i = st; // i is at start
+
+	// merge when both side has elements, compare current smallest elements from 2 sides
+	// smaller one => arr[i]
+	while (l_idx < l_Part.size() && r_idx < r_Part.size()) {
+		// within range
+		if (l_Part[l_idx].first <= r_Part[r_idx].first) {
+			arr[i] = l_Part[l_idx];
+			l_idx++;
+		} else {
+			arr[i] = r_Part[r_idx];
+			r_idx++;
+		}
+		i++;
+	}
+	while (l_idx < l_Part.size()) {
+		arr[i] = l_Part[l_idx];
+		l_idx++;
+		i++;
+	}
+	while (r_idx < r_Part.size()) {
+		arr[i] = r_Part[r_idx];
+		r_idx++;
+		i++;
+	}
+}
+
+void PmergeMe::makeDeqChain()
+{
+	// make a1, b1, a2, a3, ... aN chain
+	size_t i;
+	bigChain_d.push_back(this->deqPair.at(0).second);
+	i = 0;
+	while (i < this->deqPair.size()) {
+		bigChain_d.push_back(this->deqPair.at(i).first);
+		smallChain_d.push_back(this->deqPair.at(i).second);
+		i++;
+	}
+}
+
+int PmergeMe::binSrchDeq(std::deque<int> arr, int target, int st, int ed)
+{
+	int mid;
+
+	while (st <= ed)
+	{
+		mid = st + (ed - st) / 2; // vs ()
+		if (target == arr.at(mid)) {
+			return mid;
+		}
+		if (target > arr.at(mid))
+		{
+			st = mid + 1;
+		} else {
+			ed = mid - 1;
+		}
+	}
+	if (target > arr.at(mid)) {
+		return mid + 1;
+	} else
+	{
+		return mid;
+	}
 }

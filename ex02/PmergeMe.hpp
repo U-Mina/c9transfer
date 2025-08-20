@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/20 16:36:37 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/20 16:51:22 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ private:
 	void makeDeqPair();
 	void sortDeqPair();
 	void splitDeqSort(std::deque<std::pair<int, int>>& arr, int st, int ed);
-	void mergeDeq(std::deque<std::pair<int, int>>, int st, int mid, int ed);
+	void mergeDeq(std::deque<std::pair<int, int>>& arr, int st, int mid, int ed);
 	void makeDeqChain();
 	int binSrchDeq(std::deque<int> arr, int target, int st, int ed);
 	// int calcuJknbr(int size);
