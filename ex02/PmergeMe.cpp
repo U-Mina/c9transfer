@@ -19,12 +19,63 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 }
 
 /*--------------------METHODS-----VECTOR------------------*/
+/**
+ * clock_t sttime;
+	clock_t edtime;
+	double vectm;
+	double deqtm;
 
+	sttime = clock();
+	vectorSort(vector);
+	edtime = clock();
+	vectm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+	printVec(vector);
+
+	sttime = clock();
+	dequeSort(deque);
+	edtime = clock();
+	deqtm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+	printDeq(deque);
+	
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vectm << " us\n";
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::deque : " << deqtm << " us\n";
+ */
+
+// void PmergeMe::callVectSort(char** av)
+// {	
+// 	clock_t sttime;
+// 	clock_t edtime;
+// 	double vectm;
+// 	sttime = clock();
+// 	this->takeIputVec(av);
+// 	printVec_b();
+// 	if (this->vector.size() == 1) {
+// 		bigChain_v.push_back(this->vector.at(0));
+// 	}
+// 	else {
+// 		this->makeVecPair();
+// 		this->sortVecPair();
+// 		this->splitVecSort(this->vecPair, 0, this->vecPair.size() - 1);
+// 		this->makeVecChain();
+// 		this->insertion_v();
+// 	}
+// 	edtime = clock();
+// 	vectm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+// 	printVec_a();
+// 	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vectm << " us\n";
+// }
 void PmergeMe::callVectSort(char** av)
-{
+{	
+	clock_t sttime;
+	clock_t edtime;
+	double vectm;
+	sttime = clock();
 	this->takeIputVec(av);
+	this->takeIputDeq(av);
+	printVec_b();
 	if (this->vector.size() == 1) {
-		bigChain_v.push_back(this->vector.at(0));
+		this->bigChain_v.push_back(this->vector.at(0));
+		this->bigChain_d.push_back(deque.front());
 	}
 	else {
 		this->makeVecPair();
@@ -32,7 +83,16 @@ void PmergeMe::callVectSort(char** av)
 		this->splitVecSort(this->vecPair, 0, this->vecPair.size() - 1);
 		this->makeVecChain();
 		this->insertion_v();
+		this->makeDeqPair();
+		this->sortDeqPair();
+		this->splitDeqSort(deqPair, 0, deqPair.size() - 1);
+		this->makeDeqChain();
+		this->insertion_d();
 	}
+	edtime = clock();
+	vectm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;
+	printVec_a();
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : " << vectm << " us\n";
 }
 
 void PmergeMe::takeIputVec(char** av)
@@ -293,25 +353,58 @@ void PmergeMe::printVec_a()
 
 void PmergeMe::callDeqSort(char** av)
 {
+	clock_t sttime;
+	clock_t edtime;
+	double deqtm;
+	sttime = clock();
+	this->takeIputDeq(av);
+	if (this->deque.size() == 1)
+	{
+		this->bigChain_d.push_back(deque.front());
+	}
+	else
+	{
+		this->makeDeqChain();
+		this->sortDeqPair();
+		this->splitDeqSort(deqPair, 0, deqPair.size() - 1);
+		this->makeDeqChain();
+		this->insertion_d();
+	}
+	edtime = clock();
+	deqtm = ((double) (sttime - edtime)) / CLOCKS_PER_SEC;	
+	std::cout << "Time to process a range of " << vector.size() << " elements with std::deque : " << deqtm << " us\n";
+}
+
+void PmergeMe::takeIputDeq(char** av)
+{
+	int i;
+	// char* p;
+
+	// for (int i = 1; av[i]; i++)
+	i = 1;
 	int val;
-	for (int i = 1; av[i]; i++)
+	while (av[i])
 	{
 		if (av[i][0] == '\0') {
 			throw std::invalid_argument("Error: empty integer input!\n");
 		}
-		val = std::atol(av[i]);
-		if (val < 0) {
+		val = std::atoi(av[i]);
+		// val = std::strtol(av[i], &p, 10);
+		if (val < 0 ) {
 			throw std::invalid_argument("Error: negetive input!\n");
 		}
 		this->deque.push_back(val);
+		// std::cout << deque.back() << std::endl;
+		// std::cout << "to see this time" << "\n";
+		i++;
 	}
-	std::deque<int> tmp = this->deque;
-	std::sort(tmp.begin(), tmp.end());
-	for (size_t j = 0; j < tmp.size(); j++) {
-		if (tmp[j] == tmp[j + 1]) {
-			throw std::invalid_argument("Error: duplication of number!");
-		}
-	}
+	// std::deque<int> tmp = this->deque;
+	// std::sort(tmp.begin(), tmp.end());
+	// for (size_t j = 0; j < tmp.size(); j++) {
+	// 	if (tmp[j] == tmp[j + 1]) {
+	// 		throw std::invalid_argument("Error: duplication of number!");
+	// 	}
+	// }
 }
 
 void PmergeMe::makeDeqPair()
@@ -331,11 +424,11 @@ void PmergeMe::makeDeqPair()
 
 void PmergeMe::sortDeqPair()
 {
-	size_t i;
+	// size_t i;
 	int tmp;
 
-	i = 0;
-	for (int i = 0; i < this->deqPair.size(); i++) {
+	// i = 0;
+	for (unsigned int i = 0; i < this->deqPair.size(); i++) {
 	// while (i < this->deqPair.size()) {
 		if (this->deqPair.at(i).first < this->deqPair.at(i).second) {
 			tmp = this->deqPair.at(i).first;
@@ -451,7 +544,7 @@ void PmergeMe::crtInsrtOrderDeq()
 	if (this->smallChain_d.empty() == true) {
 		return ;
 	}
-	this->crtInsrtOrderDeq(); // create jkOrder
+	this->crtJkOrderDeq(); // create jkOrder
 	size_t pre_jkIdx = 1; // prev jk-idx used
 	size_t cur_jkIdx = 1; // will be replace soon, just to init var
 	//size_t jkOrderIdx = 0; // to get the 'jkorder;, 0->3, 1->5, 3->11
@@ -459,7 +552,7 @@ void PmergeMe::crtInsrtOrderDeq()
 
 	while (!this->jkOrder_d.empty())
 	{
-		cur_jkIdx = jkOrder_d.front();
+		cur_jkIdx = this->jkOrder_d.front();
 		jkOrder_d.pop_front();
 		insrtPos_d.push_back(cur_jkIdx);
 		backtrackIdx = cur_jkIdx - 1;
@@ -493,5 +586,42 @@ void PmergeMe::crtInsrtOrderDeq()
 }
 void PmergeMe::insertion_d()
 {
-	
+	int target;
+	size_t curPos;
+	this->crtInsrtOrderDeq();
+	size_t added = 0;
+	std::deque<int>::iterator it;
+	for (it = this->insrtPos_d.begin(); it < this->insrtPos_d.end(); it++)
+	{
+		target = this->smallChain_d.at(*it - 1); //check
+		size_t endPos = added + *it;
+		curPos = this->binSrchDeq(this->bigChain_d, target, 0, endPos);
+		this->bigChain_d.insert(this->bigChain_d.begin() + curPos, target);
+		added++;
+	}
+	if (this->deque.size() % 2 != 0)
+	{
+		target = this->deque.at(this->deque.size() - 1);
+		curPos = this->binSrchDeq(this->bigChain_d, target, 0, this->bigChain_d.size() - 1);
+		this->bigChain_d.insert(this->bigChain_d.begin() + curPos, target);
+	}
 }
+
+
+// void PmergeMe::prinDeq_b()
+// {
+// 	std::cout << "Before is: ";
+// 	for (size_t i = 0; i < this->vec.size(); ++i) {
+// 		std::cout << this->vector.at(i) << " ";
+// 		// std::cout << "print this";
+// 	}
+// 	std::cout << std::endl;
+// }
+// void PmergeMe::printDeq_a()
+// {
+// 	std::cout << "After is: ";
+// 	for (size_t i = 0; i < this->bigChain_v.size(); ++i) {
+// 		std::cout << bigChain_v.at(i) << " ";
+// 	}
+// 	std::cout << std::endl;
+// }
