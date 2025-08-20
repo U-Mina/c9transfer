@@ -18,20 +18,20 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 	return *this;
 }
 
-/*--------------------METHODS-----------------------*/
+/*--------------------METHODS-----VECTOR------------------*/
 
 void PmergeMe::callVectSort(char** av)
 {
 	this->takeIputVec(av);
 	if (this->vector.size() == 1) {
-		bigChain.push_back(this->vector.at(0));
+		bigChain_v.push_back(this->vector.at(0));
 	}
 	else {
 		this->makeVecPair();
 		this->sortVecPair();
 		this->splitVecSort(this->vecPair, 0, this->vecPair.size() - 1);
-		this->makeChain();
-		this->insertion();
+		this->makeVecChain();
+		this->insertion_v();
 	}
 }
 
@@ -153,15 +153,15 @@ void PmergeMe::mergeVec(std::vector<std::pair<int, int>>& arr, int st, int mid, 
 	}
 }
 
-void PmergeMe::makeChain()
+void PmergeMe::makeVecChain()
 {
 	// make a1, b1, a2, a3, ... aN chain
 	size_t i;
-	bigChain.push_back(this->vecPair.at(0).second);
+	bigChain_v.push_back(this->vecPair.at(0).second);
 	i = 0;
 	while (i < this->vecPair.size()) {
-		bigChain.push_back(this->vecPair.at(i).first);
-		smallChain.push_back(this->vecPair.at(i).second);
+		bigChain_v.push_back(this->vecPair.at(i).first);
+		smallChain_v.push_back(this->vecPair.at(i).second);
 		i++;
 	}
 }
@@ -211,7 +211,7 @@ void PmergeMe::createJkOrder()
 	size_t size;
 	size_t jkIdx;
 	int i;
-	size = this->smallChain.size();
+	size = this->smallChain_v.size();
 	i = 3; // 0 1 1 3 5 ...
 	while ((jkIdx = this->calcuJknbr(i)) < size - 1) {
 		this->jkOrder.push_back(jkIdx);
@@ -221,7 +221,7 @@ void PmergeMe::createJkOrder()
 
 void PmergeMe::createInsrtOrder()
 {
-	if (this->smallChain.empty() == true) {
+	if (this->smallChain_v.empty() == true) {
 		return ;
 	}
 	this->createJkOrder(); // create jkOrder
@@ -233,41 +233,41 @@ void PmergeMe::createInsrtOrder()
 	while (jkOrderIdx < this->jkOrder.size())
 	{
 		cur_jkIdx = jkOrder.at(jkOrderIdx); // take current jk number
-		this->insrtPos.push_back(cur_jkIdx); // make it insertion index
+		this->insrtPos_v.push_back(cur_jkIdx); // make it insertion index
 		
 		size_t backtrackIdx = cur_jkIdx - 1; // eg jk = 5, go 5 -> 4
 		while (backtrackIdx > pre_jkIdx) {
-			this->insrtPos.push_back(backtrackIdx);
+			this->insrtPos_v.push_back(backtrackIdx);
 			backtrackIdx--;
 		}
 		pre_jkIdx = cur_jkIdx;
 		jkOrderIdx++;
 	}
-	while (cur_jkIdx++ < this->smallChain.size()) {
-		this->insrtPos.push_back(cur_jkIdx);
+	while (cur_jkIdx++ < this->smallChain_v.size()) {
+		this->insrtPos_v.push_back(cur_jkIdx);
 	}
 }
 
-void PmergeMe::insertion()
+void PmergeMe::insertion_v()
 {
 	int target;
 	size_t curPos;
 	this->createInsrtOrder();
 	size_t added = 0;
 	std::vector<int>::iterator it;
-	for (it = this->insrtPos.begin(); it != this->insrtPos.end(); ++it)
+	for (it = this->insrtPos_v.begin(); it != this->insrtPos_v.end(); ++it)
 	{
 		size_t endPos = added + *it;
-		target = this->smallChain.at(*it - 1); //check
-		curPos = this->binSrchVec(this->bigChain, target, 0, endPos);
-		this->bigChain.insert(this->bigChain.begin() + curPos, target);
+		target = this->smallChain_v.at(*it - 1); //check
+		curPos = this->binSrchVec(this->bigChain_v, target, 0, endPos);
+		this->bigChain_v.insert(this->bigChain_v.begin() + curPos, target);
 		added++;
 	}
 	if (this->vector.size() % 2 != 0)
 	{
 		target = this->vector.at(this->vector.size() - 1);
-		curPos = this->binSrchVec(this->bigChain, target, 0, this->bigChain.size() - 1);
-		this->bigChain.insert(this->bigChain.begin() + curPos, target);
+		curPos = this->binSrchVec(this->bigChain_v, target, 0, this->bigChain_v.size() - 1);
+		this->bigChain_v.insert(this->bigChain_v.begin() + curPos, target);
 	}
 }
 
@@ -283,29 +283,39 @@ void PmergeMe::printVec_b()
 void PmergeMe::printVec_a()
 {
 	std::cout << "After is: ";
-	for (size_t i = 0; i < this->bigChain.size(); ++i) {
-		std::cout << bigChain.at(i) << " ";
+	for (size_t i = 0; i < this->bigChain_v.size(); ++i) {
+		std::cout << bigChain_v.at(i) << " ";
 	}
 	std::cout << std::endl;
 }
 
-// std::vector<size_t> PmergeMe::calcuJacob(size_t size)
-// {
-// 	std::vector<size_t> jk;
-// 	// edge case handle
-// 	if (size == 0) {
-// 		return jk; // return empty std::vector, cuz no element to insert!
-// 	}
-// 	jk.push_back(1); // not empty, push 1st element 
-// 	if (size > 1) {
-// 		jk.push_back(3); // at this point, {1, 3} in jk
-// 		size_t i = 2; // the formula starts from n >= 2
-// 		while (jk.back() < size) {
-// 			// the insertion place is samller than the size of chain
-// 			int nextJk = jk[size - 1] + (2 * jk[size - 2]);
-// 			jk.push_back(nextJk);
-// 			i++;
-// 		}
-// 	}
-// 	return jk;
-// }
+/*--------------------METHODS-----DEQUE------------------*/
+
+void PmergeMe::callDeqSort(char** av)
+{
+	int val;
+	for (int i = 1; av[i]; i++)
+	{
+		if (av[i][0] == '\0') {
+			throw std::invalid_argument("Error: empty integer input!\n");
+		}
+		val = std::atol(av[i]);
+		if (val < 0) {
+			throw std::invalid_argument("Error: negetive input!\n");
+		}
+		this->deque.push_back(val);
+	}
+	std::deque<int> tmp = this->deque;
+	std::sort(tmp.begin(), tmp.end());
+	for (size_t j = 0; j < tmp.size(); j++) {
+		if (tmp[j] == tmp[j + 1]) {
+			throw std::invalid_argument("Error: duplication of number!");
+		}
+	}
+}
+
+void PmergeMe::makeDeqPair()
+{
+	size_t size;
+	
+}
