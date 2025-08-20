@@ -432,3 +432,66 @@ int PmergeMe::binSrchDeq(std::deque<int> arr, int target, int st, int ed)
 		return mid;
 	}
 }
+
+void PmergeMe::crtJkOrderDeq()
+{
+	size_t size;
+	size_t jkIdx;
+	int i;
+	size = this->smallChain_d.size();
+	i = 3; // 0 1 1 3 5 ...
+	while ((jkIdx = this->calcuJknbr(i)) < size - 1) {
+		this->jkOrder_d.push_back(jkIdx);
+		i++;
+	}
+}
+
+void PmergeMe::crtInsrtOrderDeq()
+{
+	if (this->smallChain_d.empty() == true) {
+		return ;
+	}
+	this->crtInsrtOrderDeq(); // create jkOrder
+	size_t pre_jkIdx = 1; // prev jk-idx used
+	size_t cur_jkIdx = 1; // will be replace soon, just to init var
+	//size_t jkOrderIdx = 0; // to get the 'jkorder;, 0->3, 1->5, 3->11
+	size_t backtrackIdx;
+
+	while (!this->jkOrder_d.empty())
+	{
+		cur_jkIdx = jkOrder_d.front();
+		jkOrder_d.pop_front();
+		insrtPos_d.push_back(cur_jkIdx);
+		backtrackIdx = cur_jkIdx - 1;
+		while (backtrackIdx > pre_jkIdx)
+		{
+			this->insrtPos_d.push_back(backtrackIdx);
+			backtrackIdx--;
+		}
+		pre_jkIdx = cur_jkIdx;
+		// jkOrder_d
+	}
+	while (cur_jkIdx++ < this->smallChain_d.size()) {
+		this->insrtPos_d.push_back(cur_jkIdx);
+	}
+	// while (jkOrderIdx < this->jkOrder_d.size())
+	// {
+	// 	cur_jkIdx = jkOrder_d.at(jkOrderIdx); // take current jk number
+	// 	this->insrtPos_d.push_back(cur_jkIdx); // make it insertion index
+		
+	// 	size_t backtrackIdx = cur_jkIdx - 1; // eg jk = 5, go 5 -> 4
+	// 	while (backtrackIdx > pre_jkIdx) {
+	// 		this->insrtPos_d.push_back(backtrackIdx);
+	// 		backtrackIdx--;
+	// 	}
+	// 	pre_jkIdx = cur_jkIdx;
+	// 	jkOrderIdx++;
+	// }
+	// while (cur_jkIdx++ < this->smallChain_d.size()) {
+	// 	this->insrtPos_d.push_back(cur_jkIdx);
+	// }
+}
+void PmergeMe::insertion_d()
+{
+	
+}

@@ -6,7 +6,7 @@
 /*   By: ewu <ewu@student.42heilbronn.de>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:48:02 by ewu               #+#    #+#             */
-/*   Updated: 2025/08/20 16:51:22 by ewu              ###   ########.fr       */
+/*   Updated: 2025/08/20 17:09:16 by ewu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ private:
 	std::deque<std::pair<int, int>> deqPair;
 	std::deque<int> bigChain_d;
 	std::deque<int> smallChain_d;
-	std::deque<int> jkOrder;
+	std::deque<int> jkOrder_d;
 	
 	void takeIputDeq(char** av);
 	void makeDeqPair();
@@ -99,11 +99,10 @@ private:
 	void mergeDeq(std::deque<std::pair<int, int>>& arr, int st, int mid, int ed);
 	void makeDeqChain();
 	int binSrchDeq(std::deque<int> arr, int target, int st, int ed);
-	// int calcuJknbr(int size);
-	// void createJkOrder();
-	// void createInsrtOrder();
-	// void insertion();
-	// void binaryInsert(T& container, int val, size_t size);
+	int calJknbrDeq(int size);
+	void crtJkOrderDeq();
+	void crtInsrtOrderDeq();
+	void insertion_d();
 	
 };
 
